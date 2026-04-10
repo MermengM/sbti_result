@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,11 @@
       --accent: #f2a64e;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -163,12 +168,21 @@
     }
 
     @media (max-width: 760px) {
-      body { padding: 16px 10px 28px; }
-      .panel { padding: 14px; }
-      .answers { font-size: 13px; }
+      body {
+        padding: 16px 10px 28px;
+      }
+
+      .panel {
+        padding: 14px;
+      }
+
+      .answers {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
+
 <body>
   <main class="container">
     <a class="back" href="../index.html">返回首页</a>
@@ -181,39 +195,33 @@
 
     <section class="panel">
       <h2>人格简介</h2>
-      <div class="desc">您为什么走路摇摇晃晃？您为什么总是情绪高涨？您为什么看东西是重影的？因为您体内流淌的不是血液，是美味的五粮液！是国窖1573！是江小白！是陕西五粮液！哦，美味的白酒，每一滴都在燃烧，都在沸腾。您是否已经习惯了将白酒灌入保温杯，当作白开水一饮而下？多么伟大的白酒！它让您在饭桌上谈笑风生，在厕所里抱着马桶忏悔人生；它让您觉得自己是夜场诗人，是宇宙中心那团不灭的火，直到第二天上午十点，您的头像裂开的核桃，嘴角挂着食物残渣，灵魂缩在角落里。您终于明白，昨晚那个高谈阔论、拍桌怒吼的人，已经成为了一个酒鬼。</div>
+      <div class="desc">
+        您为什么走路摇摇晃晃？您为什么总是情绪高涨？您为什么看东西是重影的？因为您体内流淌的不是血液，是美味的五粮液！是国窖1573！是江小白！是陕西五粮液！哦，美味的白酒，每一滴都在燃烧，都在沸腾。您是否已经习惯了将白酒灌入保温杯，当作白开水一饮而下？多么伟大的白酒！它让您在饭桌上谈笑风生，在厕所里抱着马桶忏悔人生；它让您觉得自己是夜场诗人，是宇宙中心那团不灭的火，直到第二天上午十点，您的头像裂开的核桃，嘴角挂着食物残渣，灵魂缩在角落里。您终于明白，昨晚那个高谈阔论、拍桌怒吼的人，已经成为了一个酒鬼。
+      </div>
     </section>
     <section class="panel">
       <h2>特殊说明</h2>
       <ul class="list">
-        <li>触发方式：补充题 drink_gate_q2 选分值 2，直接命中。</li>
-<li>优先级最高：命中后会覆盖普通人格结果。</li>
-<li>30题不是主触发条件，可自由作答。</li>
+        <li>触发方式：补充题「您对饮酒的态度是？」中选择选项 2「我习惯将白酒灌在保温杯，当白开水喝，酒精令我信服。」，直接命中。</li>
+        <li>优先级最高：命中后会覆盖普通人格结果。</li>
+        <li>30题不是主触发条件，可自由作答。</li>
       </ul>
-    </section>    <section class="panel">
+    </section>
+    <section class="panel">
       <h2>30题稳定直达（优先推荐）</h2>
       <div class="answer-title">q1 ~ q30</div>
-      <div class="answers">不适用：该人格由补充题 drink_gate_q2 触发，不靠 30 题固定命中。</div>
+      <div class="answers">触发题目：您对饮酒的态度是？<br>选项 1（value=1）：小酌怡情，喝不了太多。<br>选项
+        2（value=2）：我习惯将白酒灌在保温杯，当白开水喝，酒精令我信服。<br>命中条件：选择选项 2。</div>
       <div class="action-row"><span class="go-btn disabled">该方案无固定 30 题答案</span></div>
     </section>
 
     <section class="panel">
       <h2>30题最少档位（省分版）</h2>
       <div class="answer-title">q1 ~ q30</div>
-      <div class="answers">不想酒鬼：补充题 drink_gate_q2 不要选分值 2。</div>
+      <div class="answers">避开酒鬼：补充题「您对饮酒的态度是？」不要选选项 2。<br>可选：选项 1（value=1）「小酌怡情，喝不了太多。」</div>
       <div class="action-row"><span class="go-btn disabled">该方案无固定 30 题答案</span></div>
-    </section>
-
-    <section class="panel">
-      <h2>作答提醒</h2>
-      <ul class="list">
-        <li>下方每行数字从左到右对应 q1 到 q30。</li>
-        <li>若题目里 A/B/C 的顺序和分值顺序不同，仍然按分值来选。</li>
-        <li>想稳：按稳定直达作答。</li>
-        <li>想省：按最少档位作答，但更容易跑偏到相近人格。</li>
-        <li>不想酒鬼：补充题 drink_gate_q2 不要选分值 2。</li>
-      </ul>
     </section>
   </main>
 </body>
+
 </html>
