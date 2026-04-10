@@ -111,11 +111,8 @@
       line-height: 1.8;
       color: #bbb;
       font-weight: 300;
-      display: -webkit-box;
-      line-clamp: 5;
-      -webkit-line-clamp: 5;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      display: block;
+      overflow: visible;
     }
 
     /* Color themes per card */
@@ -600,11 +597,6 @@
       .grid {
         grid-template-columns: 1fr;
       }
-
-      .card-desc {
-        line-clamp: 7;
-        -webkit-line-clamp: 7;
-      }
     }
 
     @media print {
@@ -633,6 +625,72 @@
   </div>
 
   <script>
+    let equalizeResizeTimer = null;
+    let equalizeListenersBound = false;
+
+    function normalizeCardHeights() {
+      const grid = document.getElementById('type-grid');
+      if (!grid) {
+        return;
+      }
+
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      if (!cards.length) {
+        return;
+      }
+
+      cards.forEach((card) => {
+        card.style.height = 'auto';
+      });
+
+      let maxHeight = 0;
+      cards.forEach((card) => {
+        maxHeight = Math.max(maxHeight, card.getBoundingClientRect().height);
+      });
+
+      const normalizedHeight = `${Math.ceil(maxHeight)}px`;
+      cards.forEach((card) => {
+        card.style.height = normalizedHeight;
+      });
+    }
+
+    function scheduleNormalizeCardHeights() {
+      window.requestAnimationFrame(() => {
+        normalizeCardHeights();
+      });
+    }
+
+    function bindEqualizeListeners() {
+      if (equalizeListenersBound) {
+        return;
+      }
+
+      equalizeListenersBound = true;
+
+      window.addEventListener('resize', () => {
+        window.clearTimeout(equalizeResizeTimer);
+        equalizeResizeTimer = window.setTimeout(() => {
+          scheduleNormalizeCardHeights();
+        }, 120);
+      }, {
+        passive: true
+      });
+
+      window.addEventListener('orientationchange', () => {
+        scheduleNormalizeCardHeights();
+      }, {
+        passive: true
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          scheduleNormalizeCardHeights();
+        }).catch(() => {
+          // Ignore font-loading failures and keep current measured heights.
+        });
+      }
+    }
+
     async function syncTypeLibrary() {
       try {
         const response = await fetch('./TYPE_LIBRARY.json');
@@ -682,11 +740,14 @@
           const total = Object.keys(library).length;
           footer.textContent = `全人格图鉴 · 共 ${total} 种人格类型 · 一图尽览`;
         }
+
+        scheduleNormalizeCardHeights();
       } catch (error) {
         console.warn('TYPE_LIBRARY 同步失败，继续使用页面内置文案。', error);
       }
     }
 
+    bindEqualizeListeners();
     syncTypeLibrary();
   </script>
 
