@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全人格图鉴 - 27种人格类型</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    padding: 40px 20px;
+    min-width: 1200px;
+  }
+
+  .header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+  .header h1 {
+    font-size: 56px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 8px;
+    margin-bottom: 16px;
+  }
+  .header p {
+    font-size: 20px;
+    color: #888;
+    font-weight: 300;
+    letter-spacing: 4px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .card {
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .card-code {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .card-cn {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .card-intro {
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 14px;
+    opacity: 0.8;
+    padding-left: 12px;
+    border-left: 3px solid;
+  }
+  .card-desc {
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: #bbb;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Color themes per card */
+  .card-ctrl::before { background: linear-gradient(90deg, #ff6348, #ff4757); }
+  .card-ctrl .card-code { color: #ff6348; }
+  .card-ctrl .card-intro { border-color: #ff6348; color: #ff9a8b; }
+  .card-ctrl .card-cn { color: #ff6348; }
+
+  .card-atm-er::before { background: linear-gradient(90deg, #ffa502, #eccc68); }
+  .card-atm-er .card-code { color: #ffa502; }
+  .card-atm-er .card-intro { border-color: #ffa502; color: #ffd36e; }
+  .card-atm-er .card-cn { color: #ffa502; }
+
+  .card-dior-s::before { background: linear-gradient(90deg, #7bed9f, #2ed573); }
+  .card-dior-s .card-code { color: #7bed9f; }
+  .card-dior-s .card-intro { border-color: #7bed9f; color: #a0e8b8; }
+  .card-dior-s .card-cn { color: #7bed9f; }
+
+  .card-boss::before { background: linear-gradient(90deg, #ff4757, #c0392b); }
+  .card-boss .card-code { color: #ff4757; }
+  .card-boss .card-intro { border-color: #ff4757; color: #ff7675; }
+  .card-boss .card-cn { color: #ff4757; }
+
+  .card-than-k::before { background: linear-gradient(90deg, #f9ca24, #f0932b); }
+  .card-than-k .card-code { color: #f9ca24; }
+  .card-than-k .card-intro { border-color: #f9ca24; color: #fddb7e; }
+  .card-than-k .card-cn { color: #f9ca24; }
+
+  .card-oh-no::before { background: linear-gradient(90deg, #e056fd, #be2edd); }
+  .card-oh-no .card-code { color: #e056fd; }
+  .card-oh-no .card-intro { border-color: #e056fd; color: #e8a0ff; }
+  .card-oh-no .card-cn { color: #e056fd; }
+
+  .card-gogo::before { background: linear-gradient(90deg, #00d2d3, #01a3a4); }
+  .card-gogo .card-code { color: #00d2d3; }
+  .card-gogo .card-intro { border-color: #00d2d3; color: #55e6c1; }
+  .card-gogo .card-cn { color: #00d2d3; }
+
+  .card-sexy::before { background: linear-gradient(90deg, #fd79a8, #e84393); }
+  .card-sexy .card-code { color: #fd79a8; }
+  .card-sexy .card-intro { border-color: #fd79a8; color: #ffb8d0; }
+  .card-sexy .card-cn { color: #fd79a8; }
+
+  .card-love-r::before { background: linear-gradient(90deg, #ff6b81, #ee5a6f); }
+  .card-love-r .card-code { color: #ff6b81; }
+  .card-love-r .card-intro { border-color: #ff6b81; color: #ffa0b0; }
+  .card-love-r .card-cn { color: #ff6b81; }
+
+  .card-mum::before { background: linear-gradient(90deg, #a29bfe, #6c5ce7); }
+  .card-mum .card-code { color: #a29bfe; }
+  .card-mum .card-intro { border-color: #a29bfe; color: #c8c3ff; }
+  .card-mum .card-cn { color: #a29bfe; }
+
+  .card-fake::before { background: linear-gradient(90deg, #636e72, #b2bec3); }
+  .card-fake .card-code { color: #b2bec3; }
+  .card-fake .card-intro { border-color: #b2bec3; color: #dfe6e9; }
+  .card-fake .card-cn { color: #b2bec3; }
+
+  .card-ojbk::before { background: linear-gradient(90deg, #55a3f0, #2e86de); }
+  .card-ojbk .card-code { color: #55a3f0; }
+  .card-ojbk .card-intro { border-color: #55a3f0; color: #82c4f8; }
+  .card-ojbk .card-cn { color: #55a3f0; }
+
+  .card-malo::before { background: linear-gradient(90deg, #ffc048, #f39c12); }
+  .card-malo .card-code { color: #ffc048; }
+  .card-malo .card-intro { border-color: #ffc048; color: #ffe0a0; }
+  .card-malo .card-cn { color: #ffc048; }
+
+  .card-joke-r::before { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+  .card-joke-r .card-code { color: #e74c3c; }
+  .card-joke-r .card-intro { border-color: #e74c3c; color: #f08080; }
+  .card-joke-r .card-cn { color: #e74c3c; }
+
+  .card-woc::before { background: linear-gradient(90deg, #e55039, #eb4d4b); }
+  .card-woc .card-code { color: #e55039; }
+  .card-woc .card-intro { border-color: #e55039; color: #f09070; }
+  .card-woc .card-cn { color: #e55039; }
+
+  .card-thin-k::before { background: linear-gradient(90deg, #4a90d9, #3c6382); }
+  .card-thin-k .card-code { color: #4a90d9; }
+  .card-thin-k .card-intro { border-color: #4a90d9; color: #82b1e8; }
+  .card-thin-k .card-cn { color: #4a90d9; }
+
+  .card-shit::before { background: linear-gradient(90deg, #6ab04c, #badc58); }
+  .card-shit .card-code { color: #6ab04c; }
+  .card-shit .card-intro { border-color: #6ab04c; color: #a0d888; }
+  .card-shit .card-cn { color: #6ab04c; }
+
+  .card-zzzz::before { background: linear-gradient(90deg, #686de0, #4834d4); }
+  .card-zzzz .card-code { color: #686de0; }
+  .card-zzzz .card-intro { border-color: #686de0; color: #9b9ef0; }
+  .card-zzzz .card-cn { color: #686de0; }
+
+  .card-poor::before { background: linear-gradient(90deg, #c8d6e5, #8395a7); }
+  .card-poor .card-code { color: #c8d6e5; }
+  .card-poor .card-intro { border-color: #c8d6e5; color: #dfe8f0; }
+  .card-poor .card-cn { color: #c8d6e5; }
+
+  .card-monk::before { background: linear-gradient(90deg, #d4a45a, #b8860b); }
+  .card-monk .card-code { color: #d4a45a; }
+  .card-monk .card-intro { border-color: #d4a45a; color: #e8c88a; }
+  .card-monk .card-cn { color: #d4a45a; }
+
+  .card-imsb::before { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+  .card-imsb .card-code { color: #ff6b6b; }
+  .card-imsb .card-intro { border-color: #ff6b6b; color: #ff9a9a; }
+  .card-imsb .card-cn { color: #ff6b6b; }
+
+  .card-solo::before { background: linear-gradient(90deg, #5f27cd, #341f97); }
+  .card-solo .card-code { color: #9b7fde; }
+  .card-solo .card-intro { border-color: #9b7fde; color: #b8a4e8; }
+  .card-solo .card-cn { color: #9b7fde; }
+
+  .card-fuck::before { background: linear-gradient(90deg, #ff3838, #ff9f1a); }
+  .card-fuck .card-code { color: #ff3838; }
+  .card-fuck .card-intro { border-color: #ff3838; color: #ff7878; }
+  .card-fuck .card-cn { color: #ff3838; }
+
+  .card-dead::before { background: linear-gradient(90deg, #2d3436, #636e72); }
+  .card-dead .card-code { color: #a0a0a0; }
+  .card-dead .card-intro { border-color: #636e72; color: #b0b0b0; }
+  .card-dead .card-cn { color: #a0a0a0; }
+
+  .card-imfw::before { background: linear-gradient(90deg, #74b9ff, #0984e3); }
+  .card-imfw .card-code { color: #74b9ff; }
+  .card-imfw .card-intro { border-color: #74b9ff; color: #a0d0ff; }
+  .card-imfw .card-cn { color: #74b9ff; }
+
+  .card-hhhh::before { background: linear-gradient(90deg, #ffeaa7, #fdcb6e); }
+  .card-hhhh .card-code { color: #fdcb6e; }
+  .card-hhhh .card-intro { border-color: #fdcb6e; color: #ffe8a8; }
+  .card-hhhh .card-cn { color: #fdcb6e; }
+
+  .card-drunk::before { background: linear-gradient(90deg, #e17055, #d63031); }
+  .card-drunk .card-code { color: #e17055; }
+  .card-drunk .card-intro { border-color: #e17055; color: #f0a090; }
+  .card-drunk .card-cn { color: #e17055; }
+
+  .footer {
+    text-align: center;
+    padding: 60px 20px 40px;
+    color: #555;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  @media print {
+    body { background: #111; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>全 人 格 图 鉴</h1>
+  <p>27 种人格类型 · 一图尽览</p>
+</div>
+
+<div class="grid">
+
+  <div class="card card-ctrl">
+    <div class="card-code">CTRL</div>
+    <div class="card-cn">拿捏者</div>
+    <div class="card-intro">"怎么样，被我拿捏了吧？"</div>
+    <div class="card-desc">宇宙熵增定律的天然反抗者，行走的人形自走任务管理器。普通人眼中的"规则"，只是出厂基础参数；凡人的"计划"，不过是随手涂鸦。拥有CTRL朋友意味着你的人生导航会变得更精准高效——在你即将脱轨的前一秒，用"Ctrl+S"帮你硬核存档，用逻辑拽回正轨。</div>
+  </div>
+
+  <div class="card card-atm-er">
+    <div class="card-code">ATM-er</div>
+    <div class="card-cn">送钱者</div>
+    <div class="card-intro">"你以为我很有钱吗？"</div>
+    <div class="card-desc">不一定真的"送钱"，但永远在"支付"——支付时间、精力、耐心和安宁夜晚。像一部老旧但坚固的ATM机，插进去的是别人的焦虑，吐出来的是"没事，有我"的安心。用磐石般的可靠承受瀑布般的索取，偶尔夜深人静才叹息：这该死的、无处安放的责任心啊。</div>
+  </div>
+
+  <div class="card card-dior-s">
+    <div class="card-code">Dior-s</div>
+    <div class="card-cn">屌丝</div>
+    <div class="card-intro">"等着我屌丝逆袭。"</div>
+    <div class="card-desc">犬儒主义先贤第欧根尼失散多年的精神传人——Diogenes' Original Realist - sage。对消费主义和成功学PUA最彻底的蔑视。早已看穿"上进"尽头不过是更高级的牢房。当别人追逐风口被巨浪拍晕时，Dior-s在精神木桶里晒太阳，达到了"人桶合一"的至高境界。</div>
+  </div>
+
+  <div class="card card-boss">
+    <div class="card-code">BOSS</div>
+    <div class="card-cn">领导者</div>
+    <div class="card-intro">"方向盘给我，我来开。"</div>
+    <div class="card-desc">手里永远拿着方向盘的人。油箱亮红灯、导航胡说八道，也面无表情说"我来开"，然后真到了目的地。拥有独立物理法则——永恒向上定律。效率是信仰，秩序是呼吸，本身就是人形气场发生器，方圆五米内空气自动变得严肃而高效。</div>
+  </div>
+
+  <div class="card card-than-k">
+    <div class="card-code">THAN-K</div>
+    <div class="card-cn">感恩者</div>
+    <div class="card-intro">"我感谢苍天！我感谢大地！"</div>
+    <div class="card-desc">拥有温润如玉的性格和海纳百川的胸怀。堵车了？感谢这次堵车让自己有时间聆听美妙的歌曲。他们眼中没有完全的坏人，只有"尚未被感恩光芒照耀到的朋友"。拥有THAN-K朋友就像身边多了永不枯竭的正能量发射塔，能从霉斑里发现梵高星空图。</div>
+  </div>
+
+  <div class="card card-oh-no">
+    <div class="card-code">OH-NO</div>
+    <div class="card-cn">哦不人</div>
+    <div class="card-intro">"哦不！我怎么会是这个人格？！"</div>
+    <div class="card-desc">普通人看到一个杯子在桌沿，哦不人看到的是"水渍-短路-火灾-全楼疏散-蝴蝶效应-世界末日"的灾难史诗。伴随灵魂深处的 Oh, no! 以迅雷不及掩耳之势把杯子挪到中央再垫上杯垫。对"边界"有近乎偏执的尊重，所有风险都被扼杀在萌芽状态。</div>
+  </div>
+
+  <div class="card card-gogo">
+    <div class="card-code">GOGO</div>
+    <div class="card-cn">行者</div>
+    <div class="card-intro">"gogogo~出发咯"</div>
+    <div class="card-desc">活在一个极致的"所见即所得"世界，人生信条简单粗暴到令人发指。闭上眼睛天就是黑的，钱花了就没有了，站在斑马线上就是行人了——逻辑完美闭环。别人还在辩论先有鸡还是先有蛋，GOGO已做成一盘"鸡生蛋蛋生鸡终极奥义盖浇饭"。世界只有两种状态：已完成，和即将被我完成。</div>
+  </div>
+
+  <div class="card card-sexy">
+    <div class="card-code">SEXY</div>
+    <div class="card-cn">尤物</div>
+    <div class="card-intro">"您就是天生的尤物！"</div>
+    <div class="card-desc">走进房间时照明系统自动调暗亮度以避免能源浪费。微笑时空气湿度显著下降，因为水蒸气凝结成了人眼中的爱心。传说足够多SEXY人格聚在一起开派对，释放的魅力能量足以扭曲时空结构，让参加者产生"时间变慢了"的幸福错觉。单是存在本身就已经很像一篇华丽到过分的赋。</div>
+  </div>
+
+  <div class="card card-love-r">
+    <div class="card-code">LOVE-R</div>
+    <div class="card-cn">多情者</div>
+    <div class="card-intro">"爱意太满，现实显得有点贫瘠。"</div>
+    <div class="card-desc">钢铁森林时代最后的、最不合时宜的吟游诗人。情感处理器不是二进制的，而是彩虹制的。一片落叶，在LOVE-R眼中是一场关于轮回、牺牲与无言之爱的十三幕悲喜剧。内心像一座永不关门的主题公园，一生寻找那个能看懂园区地图、并愿意陪坐旋转木马直到宇宙尽头的灵魂伴侣。</div>
+  </div>
+
+  <div class="card card-mum">
+    <div class="card-code">MUM</div>
+    <div class="card-cn">妈妈</div>
+    <div class="card-intro">"或许...我可以叫你妈妈吗....?"</div>
+    <div class="card-desc">在混沌未开、时间尚无姓名之前就已经有了妈妈。底色是温柔，擅长感知情绪，具有超强共情力。像一个医生治愈了别人的不开心。只可惜，当妈妈落泪时，给自己的药，剂量总是比给别人小一号。MUM对自己的温柔，常常打了折。</div>
+  </div>
+
+  <div class="card card-fake">
+    <div class="card-code">FAKE</div>
+    <div class="card-cn">伪人</div>
+    <div class="card-intro">"已经，没有人类了。"</div>
+    <div class="card-desc">SCP基金会紧急报告：项目编号 SCP-CN-████ "伪人"。在社交场合八面玲珑，切换人格面具比切换手机输入法还快。上一秒推心置腹铁哥们，下一秒领导来了瞬间沉稳好员工。夜深人静时把面具一层层摘下，最后发现面具下空得很——正是这些面具构成了自己。</div>
+  </div>
+
+  <div class="card card-ojbk">
+    <div class="card-code">OJBK</div>
+    <div class="card-cn">无所谓人</div>
+    <div class="card-intro">"我说随便，是真的随便。"</div>
+    <div class="card-desc">这已经不是一种人格，而是一种统治哲学。凡人面临"中午吃米饭还是面条"的大脑激烈燃烧时，OJBK用批阅奏章般的淡然轻飘飘吐出两个字：都行。不是没主见，是在告诉你：尔等凡俗的选择，于朕而言皆为蝼蚁。帝王不会在意脚下的尘埃往左飘还是往右飘。</div>
+  </div>
+
+  <div class="card card-malo">
+    <div class="card-code">MALO</div>
+    <div class="card-cn">吗喽</div>
+    <div class="card-intro">"人生是个副本，而我只是一只吗喽。"</div>
+    <div class="card-desc">不是"童心未泯"，压根就没进化。灵魂还停留在挂在树上荡秋千、看见香蕉就两眼放光的快乐时代。当人类祖先从树上下来穿上西装打领带时，吗喽祖先在大树上看着他们，挠了挠屁股，发出一声不屑的"吱"。规则是可以打破的，天花板是用来倒挂的，会议室是用来表演后空翻的。</div>
+  </div>
+
+  <div class="card card-joke-r">
+    <div class="card-code">JOKE-R</div>
+    <div class="card-cn">小丑</div>
+    <div class="card-intro">"原来我们都是小丑。"</div>
+    <div class="card-desc">不是一个"人"，更像一个把笑话穿在身上的小丑。打开一层是笑话，再打开一层是段子，一层层打开到最后——是空的，只有微弱回声在说"哈，没想到吧"。社交场合的气氛组组长兼唯一指定火力输出，用最大的笑声盖住心碎的声音。</div>
+  </div>
+
+  <div class="card card-woc">
+    <div class="card-code">WOC!</div>
+    <div class="card-cn">握草人</div>
+    <div class="card-intro">"卧槽，我怎么是这个人格？"</div>
+    <div class="card-desc">拥有两套操作系统：一个叫"表面系统"，负责发出"我操""牛逼""啊？"等大惊小怪的拟声词；另一个叫"后台系统"，负责冷静分析。深知给傻逼讲道理就像扶烂泥上墙，于是选择握着智慧的大草，用饱含深情的"WOC！"为疯狂世界献上最高敬意。</div>
+  </div>
+
+  <div class="card card-thin-k">
+    <div class="card-code">THIN-K</div>
+    <div class="card-cn">思考者</div>
+    <div class="card-intro">"已深度思考100s。"</div>
+    <div class="card-desc">大脑长时间处于思考状态。十分会审判信息，注重论点、论据、逻辑推理、潜在偏见，乃至"作者三代以内思想背景调查报告"的全套材料。绝不轻易盲从，会在关系中衡量利弊，捍卫自我空间。别人看你独处发呆？愚蠢，那是大脑正在对今天接收的所有信息进行分类、归档和销毁。</div>
+  </div>
+
+  <div class="card card-shit">
+    <div class="card-code">SHIT</div>
+    <div class="card-cn">愤世者</div>
+    <div class="card-intro">"这个世界，构石一坨。"</div>
+    <div class="card-desc">行为模式是一场惊天动地的悖论戏剧。嘴上：这项目简直是屎。手上：默默打开Excel建构函数模型和甘特图。嘴上：这帮同事都是shit。手上：熬夜把烂摊子收拾明白。嘴上：世界赶紧毁灭吧。手上：第二天七点准时起床挤上shit一样的地铁。那不是世界末日警报，是他要开始拯救世界的冲锋号。</div>
+  </div>
+
+  <div class="card card-zzzz">
+    <div class="card-code">ZZZZ</div>
+    <div class="card-cn">装死者</div>
+    <div class="card-intro">"我没死，我只是在睡觉。"</div>
+    <div class="card-desc">群里99+消息视而不见，但当"@全体成员 还有半小时截止"的最后通牒出现时，像千年古墓苏醒般缓缓敲出"收到"，然后在29分钟内交出及格答卷。直到"死线"这个最高权限指令出现才真正爆发——不鸣则已，一鸣惊人。向宇宙证明：有时什么都不做，就不会做错。</div>
+  </div>
+
+  <div class="card card-poor">
+    <div class="card-code">POOR</div>
+    <div class="card-cn">贫困者</div>
+    <div class="card-intro">"我穷，但我很专。"</div>
+    <div class="card-desc">"贫困"不是钱包余额的判决书，是欲望断舍离后的资源再分配。别人把精力撒成漫天二维码，你把精力压成一束激光，照哪儿哪儿冒烟。不是资源少，是把资源全部灌进了一个坑里，所以看起来像贫困，实际上像矿井。一旦认定值得钻，外界再吵也只是背景杂音。</div>
+  </div>
+
+  <div class="card card-monk">
+    <div class="card-code">MONK</div>
+    <div class="card-cn">僧人</div>
+    <div class="card-intro">"没有那种世俗的欲望。"</div>
+    <div class="card-desc">当别人在KTV参悟爱与恨的纠缠，MONK选择在家中参悟一份大道。已看破红尘，个人空间是结界、是须弥山、是绝对领域，神圣不可侵犯。不黏不缠，因为在他们的世界观里，万物皆有其独立轨道。行星之间保持亿万公里距离才构成和谐宇宙，人与人之间为什么不行？</div>
+  </div>
+
+  <div class="card card-imsb">
+    <div class="card-code">IMSB</div>
+    <div class="card-cn">傻者</div>
+    <div class="card-intro">"认真的么？我真的是傻逼么？"</div>
+    <div class="card-desc">大脑里住着两个不死不休的究极战士：一个叫"我他妈冲了！"，另一个叫"我是个傻逼！"。面对有好感的人，前者说冲啊去要微信！后者说人家凭什么都看得上你？最终结果：盯着对方背影直到消失，然后搜索"如何克服社交恐惧症"。不是真傻，只是内心戏比漫威宇宙所有电影加起来都长。</div>
+  </div>
+
+  <div class="card card-solo">
+    <div class="card-code">SOLO</div>
+    <div class="card-cn">孤儿</div>
+    <div class="card-intro">"我哭了，我怎么会是孤儿？"</div>
+    <div class="card-desc">别急着哭，国王的加冕仪式通常都是一个人。自我价值感偏低，因此有时主动疏远他人，在灵魂外围建起"莫挨老子"的万里长城，每一块砖都是过去的一道伤口。像一只把所有软肋藏起来、用最硬的刺对着世界的刺猬。那满身尖刺不是攻击，是一句句说不出口的"别过来，我怕你也受伤"和"求求你，别离开"。</div>
+  </div>
+
+  <div class="card card-fuck">
+    <div class="card-code">FUCK</div>
+    <div class="card-cn">草者</div>
+    <div class="card-intro">"操！这是什么人格？"</div>
+    <div class="card-desc">人类文明城市里出现了一株无法被任何除草剂杀死的、具有超级生命力的人形野草。在FUCK的世界观里世俗规则毫无意义，情绪开关是物理拨片式的：FUCK YEAH 和 FUCK OFF。追求的不只是当下快感，更是在体内横冲直撞的生命力。当所有人都被驯化成温顺家禽，FUCK是荒野上最后那一声狼嚎。</div>
+  </div>
+
+  <div class="card card-dead">
+    <div class="card-code">DEAD</div>
+    <div class="card-cn">死者</div>
+    <div class="card-intro">"我，还活着吗？"</div>
+    <div class="card-desc">Don't Expect Any Drives。已经看透了那些无意义的哲学思考，因此显得对一切"失去"了兴趣。看世界的眼神像顶级玩家通关了所有主线支线隐藏任务、删档重开999次之后终于发现：这游戏压根就没意思。是超越了欲望和目标的终极贤者，存在本身是对喧嚣世界最沉默也最彻底的抗议。</div>
+  </div>
+
+  <div class="card card-imfw">
+    <div class="card-code">IMFW</div>
+    <div class="card-cn">废物</div>
+    <div class="card-intro">"我真的...是废物吗？"</div>
+    <div class="card-desc">仅占世界人口0.0001％的极其珍稀人格。自尊有些脆弱，缺乏安全感，能精确感知到周围最强的那个WiFi信号——心里最可靠的人。走进他们的生活就像走进顶级兰花温室：需要精确控制温湿度，以及每天定时"我爱你"的言语光合作用。给废物一颗糖，会还你一个完全信任的、亮晶晶的眼神。你只是太没防备，太容易认真。</div>
+  </div>
+
+  <div class="card card-hhhh">
+    <div class="card-code">HHHH</div>
+    <div class="card-cn">傻乐者</div>
+    <div class="card-intro">"哈哈哈哈哈哈。"</div>
+    <div class="card-desc">由于思维回路过于清奇，标准人格库已全面崩溃。第一人格匹配率只有60％以下时系统才会强制匹配这个人格。有什么特质？哈哈哈哈哈哈哈哈哈哈哈哈！对不起，这就是全部的特质了。笑着笑着便哭了出来——怎么会有人的脑回路这么新奇。</div>
+  </div>
+
+  <div class="card card-drunk">
+    <div class="card-code">DRUNK</div>
+    <div class="card-cn">酒鬼</div>
+    <div class="card-intro">"烈酒烧喉，不得不醉。"</div>
+    <div class="card-desc">体内流淌的不是血液，是五粮液！是国窖1573！是江小白！每一滴都在燃烧沸腾。让您在饭桌上谈笑风生，在厕所里抱着马桶忏悔人生；让您觉得自己是夜场诗人、宇宙中心不灭的火，直到第二天上午头像裂开的核桃，嘴角挂着食物残渣，灵魂缩在角落——昨晚那个高谈阔论拍桌怒吼的人，已成为了一个酒鬼。</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  全人格图鉴 · 共 27 种人格类型 · 一图尽览
+</div>
+
+</body>
+</html>
