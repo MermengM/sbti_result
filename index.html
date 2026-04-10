@@ -23,6 +23,95 @@
             overflow-x: hidden;
         }
 
+        .quick-nav {
+            max-width: 1600px;
+            margin: 0 auto clamp(16px, 2.4vw, 26px);
+            padding: clamp(12px, 2vw, 16px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background:
+                radial-gradient(circle at 10% -40%, rgba(255, 255, 255, 0.18), transparent 48%),
+                rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 8px;
+            z-index: 20;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+        }
+
+        .quick-nav-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-nav-title {
+            font-size: 12px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #cfcfcf;
+        }
+
+        .quick-nav-tip {
+            font-size: 11px;
+            color: #8b8b8b;
+        }
+
+        .quick-nav-list {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 2px 1px 2px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+            mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+        }
+
+        .quick-nav-item {
+            --chip-color: #f2f2f2;
+            --chip-bg: rgba(255, 255, 255, 0.06);
+            --chip-border: rgba(255, 255, 255, 0.22);
+            --chip-glow: rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            padding: 8px 13px;
+            border-radius: 999px;
+            border: 1px solid var(--chip-border);
+            color: var(--chip-color);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            font-weight: 700;
+            background: var(--chip-bg);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+            transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+            scroll-snap-align: start;
+            white-space: nowrap;
+        }
+
+        .quick-nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px var(--chip-glow), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+            filter: saturate(1.08);
+        }
+
+        .quick-nav-item:focus-visible {
+            outline: 2px solid var(--chip-color);
+            outline-offset: 2px;
+        }
+
+        .quick-nav-list::-webkit-scrollbar {
+            display: none;
+        }
+
         .header {
             text-align: center;
             padding: clamp(36px, 6vw, 60px) clamp(12px, 2vw, 20px) clamp(24px, 4vw, 40px);
@@ -609,6 +698,15 @@
                 padding: 16px 10px;
             }
 
+            .quick-nav {
+                top: 6px;
+                padding: 10px;
+            }
+
+            .quick-nav-item {
+                padding: 7px 11px;
+            }
+
             .grid {
                 grid-template-columns: 1fr;
             }
@@ -627,6 +725,14 @@
 </head>
 
 <body>
+
+    <nav class="quick-nav" aria-label="快速跳转目录">
+        <div class="quick-nav-head">
+            <span class="quick-nav-title">快速跳转目录</span>
+            <span class="quick-nav-tip">点击类型代码可直接进入详情页</span>
+        </div>
+        <div class="quick-nav-list" id="quick-nav-list"></div>
+    </nav>
 
     <div class="header">
         <h1>全 人 格 图 鉴</h1>
@@ -715,16 +821,31 @@
 
                 const library = await response.json();
                 const grid = document.getElementById('type-grid');
+                const quickNavList = document.getElementById('quick-nav-list');
                 if (!grid) {
                     return;
                 }
 
                 grid.innerHTML = '';
+                if (quickNavList) {
+                    quickNavList.innerHTML = '';
+                }
 
                 const toThemeClass = (code) => code.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                const toRgba = (colorString, alpha) => {
+                    const values = (colorString || '').match(/\d+/g);
+                    if (!values || values.length < 3) {
+                        return `rgba(242, 242, 242, ${alpha})`;
+                    }
+
+                    const [r, g, b] = values;
+                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                };
 
                 Object.values(library).forEach((profile) => {
                     const slug = toThemeClass(profile.code || 'type');
+                    const typeCode = profile.code || slug.toUpperCase();
+                    const typeLabel = profile.cn || typeCode;
                     const card = document.createElement('a');
                     card.className = `card card-${slug}`;
                     card.href = `./types/${slug}.html`;
@@ -732,7 +853,7 @@
 
                     const codeEl = document.createElement('div');
                     codeEl.className = 'card-code';
-                    codeEl.textContent = profile.code || '';
+                    codeEl.textContent = typeCode;
 
                     const cnEl = document.createElement('div');
                     cnEl.className = 'card-cn';
@@ -756,6 +877,22 @@
                     card.appendChild(descEl);
                     card.appendChild(linkHintEl);
                     grid.appendChild(card);
+
+                    const themeColor = window.getComputedStyle(codeEl).color || 'rgb(242, 242, 242)';
+
+                    if (quickNavList) {
+                        const quickLinkEl = document.createElement('a');
+                        quickLinkEl.className = 'quick-nav-item';
+                        quickLinkEl.href = `./types/${slug}.html`;
+                        quickLinkEl.textContent = typeLabel;
+                        quickLinkEl.title = `${typeCode} ${profile.cn || ''}`.trim();
+                        quickLinkEl.setAttribute('aria-label', `快速跳转到 ${typeCode} ${profile.cn || ''} 详情`);
+                        quickLinkEl.style.setProperty('--chip-color', themeColor);
+                        quickLinkEl.style.setProperty('--chip-bg', toRgba(themeColor, 0.2));
+                        quickLinkEl.style.setProperty('--chip-border', toRgba(themeColor, 0.56));
+                        quickLinkEl.style.setProperty('--chip-glow', toRgba(themeColor, 0.34));
+                        quickNavList.appendChild(quickLinkEl);
+                    }
                 });
 
                 const footer = document.querySelector('.footer');
