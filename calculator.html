@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        :root {
+            --bg-1: #0b1528;
+            --bg-2: #122b47;
+            --bg-3: #1e3a5f;
+            --panel: rgba(255, 255, 255, 0.08);
+            --line: rgba(255, 255, 255, 0.16);
+            --text: #e8f1ff;
+            --muted: #a8c0df;
+            --accent: #f2a64e;
+            --selected-bg: rgba(242, 166, 78, 0.24);
+            --selected-line: rgba(255, 218, 173, 0.75);
+            --danger: #ff8e8e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 12% 0%, rgba(249, 186, 95, 0.24), transparent 36%),
+                radial-gradient(circle at 100% 14%, rgba(90, 178, 255, 0.2), transparent 30%),
+                linear-gradient(145deg, var(--bg-1), var(--bg-2) 44%, var(--bg-3));
+            padding: 20px 12px 36px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            gap: 14px;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--panel);
+            padding: 14px;
+        }
+
+        .back-link {
+            color: #ffd89c;
+            text-decoration: none;
+            width: fit-content;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: clamp(24px, 5vw, 40px);
+            color: #fff4df;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .summary-item {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: grid;
+            gap: 4px;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .summary-value {
+            color: #fff0d5;
+            font-size: 14px;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .status {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #f8e4be;
+        }
+
+        .status.error {
+            color: var(--danger);
+        }
+
+        .question-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .q-card {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            background: rgba(8, 18, 34, 0.55);
+            padding: 12px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .q-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .q-id {
+            color: #ffe7bd;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .q-score {
+            border: 1px solid rgba(255, 220, 166, 0.5);
+            border-radius: 999px;
+            padding: 2px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffe9c3;
+            background: rgba(242, 166, 78, 0.18);
+        }
+
+        .q-text {
+            color: #edf5ff;
+            font-size: 14px;
+            line-height: 1.75;
+            white-space: pre-wrap;
+        }
+
+        .opt-list {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .opt-item {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 9px 10px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .opt-item.selected {
+            border-color: var(--selected-line);
+            background: var(--selected-bg);
+            box-shadow: inset 0 0 0 1px rgba(255, 235, 201, 0.26);
+        }
+
+        .opt-label {
+            color: #ecf4ff;
+            font-size: 13px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+        }
+
+        .opt-value {
+            font-size: 12px;
+            color: #ffe3b1;
+            border: 1px solid rgba(255, 220, 166, 0.4);
+            border-radius: 999px;
+            padding: 2px 8px;
+            white-space: nowrap;
+        }
+
+        .warn {
+            color: #ffd4d4;
+            font-size: 12px;
+        }
+
+        @media (max-width: 840px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <a class="back-link" href="./index.html" id="back-home">Back</a>
+
+        <section class="panel">
+            <h1 id="page-title">Calculator</h1>
+            <p class="subtitle" id="page-subtitle">Answer mapping view.</p>
+
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label" id="label-code">Type</div>
+                    <div class="summary-value" id="summary-code">-</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label" id="label-mode">Mode</div>
+                    <div class="summary-value" id="summary-mode">-</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label" id="label-answer">Answer Code</div>
+                    <div class="summary-value" id="summary-answer">-</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="status" id="status"></div>
+            <div class="question-list" id="question-list"></div>
+        </section>
+    </main>
+
+    <script>
+        (() => {
+            const text = {
+                backHome: '\u8FD4\u56DE\u9996\u9875',
+                title: '\u7B54\u9898\u6E32\u67D3\u9875',
+                subtitle: '\u6839\u636E\u4F20\u5165\u7684\u7B54\u6848\u7801\uFF0C\u81EA\u52A8\u5BF9\u5E94 30 \u9898\u53CA\u9009\u9879\u3002',
+                labelCode: '\u4EBA\u683C\u4EE3\u7801',
+                labelMode: '\u65B9\u6848\u6A21\u5F0F',
+                labelAnswer: '\u7B54\u6848\u7801',
+                modeStable: '\u7A33\u5B9A\u76F4\u8FBE',
+                modeMinimal: '\u6700\u5C11\u6863\u4F4D',
+                modeUnknown: '\u672A\u6307\u5B9A',
+                targetScore: '\u76EE\u6807\u5206\u503C',
+                value: '\u5206\u503C',
+                selectedByScore: '\u4EE5\u5206\u503C\u5339\u914D\u5230\u7684\u9009\u9879',
+                renderDone: '\u5DF2\u6309\u53C2\u6570\u5B8C\u6210\u6E32\u67D3\u3002\u63D0\u9192\uFF1A\u82E5 A/B/C \u987A\u5E8F\u548C\u5206\u503C\u987A\u5E8F\u4E0D\u4E00\u81F4\uFF0C\u4ECD\u4EE5\u5206\u503C\u4E3A\u51C6\u3002',
+                errorAnswer: '\u53C2\u6570 answers \u65E0\u6548\uFF0C\u9700\u8981 30 \u4E2A 1~3 \u7684\u5206\u503C\u3002',
+                errorQuestion: '\u9898\u5E93\u8BFB\u53D6\u5931\u8D25\u6216\u6570\u91CF\u4E0D\u8DB3\u3002\u8BF7\u68C0\u67E5 question.json\u3002',
+                errorFetch: '\u65E0\u6CD5\u52A0\u8F7D\u9898\u5E93\u3002\u8BF7\u4F7F\u7528\u672C\u5730\u670D\u52A1\u6253\u5F00\u9875\u9762\u3002',
+                warnNoOption: '\u8B66\u544A\uFF1A\u672A\u627E\u5230\u5BF9\u5E94\u5206\u503C\u7684\u9009\u9879\u3002'
+            };
+
+            const statusEl = document.getElementById('status');
+            const listEl = document.getElementById('question-list');
+
+            document.getElementById('back-home').textContent = text.backHome;
+            document.getElementById('page-title').textContent = text.title;
+            document.getElementById('page-subtitle').textContent = text.subtitle;
+            document.getElementById('label-code').textContent = text.labelCode;
+            document.getElementById('label-mode').textContent = text.labelMode;
+            document.getElementById('label-answer').textContent = text.labelAnswer;
+
+            const params = new URLSearchParams(window.location.search);
+            const code = (params.get('code') || '').trim();
+            const mode = (params.get('mode') || '').trim().toLowerCase();
+            const answersRaw = (params.get('answers') || '').trim();
+
+            const answers = answersRaw
+                .split(/[\s,]+/)
+                .map((part) => part.trim())
+                .filter(Boolean)
+                .map((part) => Number(part));
+
+            const isValidAnswers = answers.length === 30 && answers.every((v) => Number.isInteger(v) && v >= 1 && v <= 3);
+
+            if (!isValidAnswers) {
+                setError(text.errorAnswer);
+                document.getElementById('summary-code').textContent = code || '-';
+                document.getElementById('summary-mode').textContent = getModeText(mode, text);
+                document.getElementById('summary-answer').textContent = answersRaw || '-';
+                return;
+            }
+
+            document.getElementById('summary-code').textContent = code || '-';
+            document.getElementById('summary-mode').textContent = getModeText(mode, text);
+            document.getElementById('summary-answer').textContent = answers.join(' ');
+
+            loadQuestions()
+                .then((questions) => {
+                    renderQuestions(questions, answers, listEl, text);
+                    setStatus(text.renderDone);
+                })
+                .catch((error) => {
+                    console.error(error);
+                    setError(text.errorFetch);
+                });
+
+            function getModeText(modeValue, dict) {
+                if (modeValue === 'stable') {
+                    return dict.modeStable;
+                }
+                if (modeValue === 'minimal') {
+                    return dict.modeMinimal;
+                }
+                return dict.modeUnknown;
+            }
+
+            async function loadQuestions() {
+                const response = await fetch('./question.json', { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error('fetch question.json failed');
+                }
+
+                const payload = await response.json();
+                let questions = [];
+
+                if (Array.isArray(payload)) {
+                    questions = payload;
+                } else if (payload && Array.isArray(payload.regular)) {
+                    questions = payload.regular;
+                } else if (payload && payload.question_bank && Array.isArray(payload.question_bank.regular)) {
+                    questions = payload.question_bank.regular;
+                }
+
+                questions = questions
+                    .filter((q) => /^q\d+$/i.test(String(q.id || '').trim()))
+                    .sort((a, b) => getQuestionNo(a.id) - getQuestionNo(b.id));
+
+                if (questions.length < 30) {
+                    throw new Error(text.errorQuestion);
+                }
+
+                return questions.slice(0, 30);
+            }
+
+            function getQuestionNo(qid) {
+                const match = String(qid || '').match(/(\d+)/);
+                return match ? Number(match[1]) : 0;
+            }
+
+            function renderQuestions(questions, answerValues, root, dict) {
+                root.innerHTML = '';
+
+                questions.forEach((question, index) => {
+                    const targetValue = answerValues[index];
+                    const card = document.createElement('article');
+                    card.className = 'q-card';
+
+                    const qid = String(question.id || `q${index + 1}`).toLowerCase();
+                    const questionText = escapeHtml(String(question.text || ''));
+
+                    const head = document.createElement('div');
+                    head.className = 'q-head';
+                    head.innerHTML = `
+            <div class="q-id">${escapeHtml(qid)} · ${dict.selectedByScore}</div>
+            <div class="q-score">${dict.targetScore} ${targetValue}</div>
+          `;
+                    card.appendChild(head);
+
+                    const textBlock = document.createElement('div');
+                    textBlock.className = 'q-text';
+                    textBlock.innerHTML = questionText;
+                    card.appendChild(textBlock);
+
+                    const list = document.createElement('ul');
+                    list.className = 'opt-list';
+
+                    const options = Array.isArray(question.options) ? question.options : [];
+                    let hasSelected = false;
+
+                    options.forEach((option) => {
+                        const value = Number(option.value);
+                        const isSelected = Number.isInteger(value) && value === targetValue;
+                        if (isSelected) {
+                            hasSelected = true;
+                        }
+
+                        const li = document.createElement('li');
+                        li.className = isSelected ? 'opt-item selected' : 'opt-item';
+                        li.innerHTML = `
+              <div class="opt-label">${escapeHtml(String(option.label || ''))}</div>
+              <div class="opt-value">${dict.value} ${escapeHtml(String(option.value ?? ''))}</div>
+            `;
+                        list.appendChild(li);
+                    });
+
+                    card.appendChild(list);
+
+                    if (!hasSelected) {
+                        const warn = document.createElement('div');
+                        warn.className = 'warn';
+                        warn.textContent = dict.warnNoOption;
+                        card.appendChild(warn);
+                    }
+
+                    root.appendChild(card);
+                });
+            }
+
+            function escapeHtml(raw) {
+                return String(raw)
+                    .replaceAll('&', '&amp;')
+                    .replaceAll('<', '&lt;')
+                    .replaceAll('>', '&gt;')
+                    .replaceAll('"', '&quot;')
+                    .replaceAll("'", '&#39;');
+            }
+
+            function setStatus(textValue) {
+                statusEl.className = 'status';
+                statusEl.textContent = textValue;
+            }
+
+            function setError(textValue) {
+                listEl.innerHTML = '';
+                statusEl.className = 'status error';
+                statusEl.textContent = textValue;
+            }
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MALO - 吗喽</title>
+  <style>
+    :root {
+      --bg-1: #0a1322;
+      --bg-2: #11233a;
+      --bg-3: #1b3557;
+      --panel: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.14);
+      --title: #fff5de;
+      --text: #deebff;
+      --sub: #ffdca6;
+      --accent: #f2a64e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(244, 183, 91, 0.28), transparent 34%),
+        radial-gradient(circle at 100% 10%, rgba(84, 175, 255, 0.24), transparent 32%),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2) 42%, var(--bg-3));
+      padding: 22px 12px 40px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .back {
+      color: #ffcf86;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      width: fit-content;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 16px;
+    }
+
+    .code {
+      letter-spacing: 2px;
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(28px, 7vw, 44px);
+      margin-bottom: 8px;
+      color: var(--title);
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #ffe8bf;
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      font-size: 15px;
+      color: var(--sub);
+      border-left: 3px solid var(--accent);
+      padding-left: 10px;
+      line-height: 1.8;
+    }
+
+    .desc {
+      color: var(--text);
+      line-height: 1.9;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .badge {
+      border: 1px solid rgba(255, 207, 134, 0.45);
+      background: rgba(242, 166, 78, 0.16);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 15px;
+      color: #ffe1b2;
+      word-break: break-word;
+    }
+
+    .answer-title {
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #9fb6d6;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .answers {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      background: rgba(7, 15, 28, 0.52);
+      padding: 10px 12px;
+      color: #f2f7ff;
+      line-height: 1.9;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .action-row {
+      margin-top: 10px;
+    }
+
+    .go-btn {
+      display: inline-block;
+      border: 1px solid rgba(255, 220, 166, 0.5);
+      background: linear-gradient(135deg, rgba(242, 166, 78, 0.24), rgba(255, 207, 134, 0.2));
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffe8c2;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .go-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .go-btn.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .list li {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 10px;
+      font-size: 13.5px;
+      color: #dde8f5;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 16px 10px 28px; }
+      .panel { padding: 14px; }
+      .answers { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <a class="back" href="../index.html">返回首页</a>
+
+    <section class="panel">
+      <div class="code">MALO</div>
+      <h1>吗喽</h1>
+      <p class="intro">人生是个副本，而我只是一只吗喽。</p>
+    </section>
+
+    <section class="panel">
+      <h2>人格简介</h2>
+      <div class="desc">朋友，你不是“童心未泯”，你压根就没进化。你的灵魂还停留在那个挂在树上荡秋千、看见香蕉就两眼放光的快乐时代。当人类祖先决定从树上下来、学会直立行走、穿上西装打领带时，吗喽人格的祖先在旁边的大树上看着他们，挠了挠屁股，嘴里发出一声不屑的“吱”。他们看透了一切：所谓的“文明”，不过是一场最无聊、最不好玩的付费游戏。规则偶尔是可以打破的，天花板是用来倒挂的，会议室是用来表演后空翻的。MALO本身就是一个从巨大脑洞里掉出来、忘了关门的奇思妙想。</div>
+    </section>
+    <section class="panel">
+      <h2>人格码</h2>
+      <div class="badge">MLH-MHM-MLH-MLH-LMH</div>
+    </section>    <section class="panel">
+      <h2>30题稳定直达（优先推荐）</h2>
+      <div class="answer-title">q1 ~ q30</div>
+      <div class="answers">2 2 1 1 3 2 2 2 3 2 2 2 2 2 1 1 3 2 2 2 1 1 3 2 1 1 2 2 3 2</div>
+      <div class="action-row"><a class="go-btn" href="../calculator.html?code=MALO&mode=stable&answers=2%2C2%2C1%2C1%2C3%2C2%2C2%2C2%2C3%2C2%2C2%2C2%2C2%2C2%2C1%2C1%2C3%2C2%2C2%2C2%2C1%2C1%2C3%2C2%2C1%2C1%2C2%2C2%2C3%2C2">按这套答案开始答题</a></div>
+    </section>
+
+    <section class="panel">
+      <h2>30题最少档位（省分版）</h2>
+      <div class="answer-title">q1 ~ q30</div>
+      <div class="answers">1 3 1 1 2 3 1 3 2 3 1 3 1 3 1 1 2 3 1 3 1 1 2 3 1 1 1 3 2 3</div>
+      <div class="action-row"><a class="go-btn" href="../calculator.html?code=MALO&mode=minimal&answers=1%2C3%2C1%2C1%2C2%2C3%2C1%2C3%2C2%2C3%2C1%2C3%2C1%2C3%2C1%2C1%2C2%2C3%2C1%2C3%2C1%2C1%2C2%2C3%2C1%2C1%2C1%2C3%2C2%2C3">按这套答案开始答题</a></div>
+    </section>
+
+    <section class="panel">
+      <h2>作答提醒</h2>
+      <ul class="list">
+        <li>下方每行数字从左到右对应 q1 到 q30。</li>
+        <li>若题目里 A/B/C 的顺序和分值顺序不同，仍然按分值来选。</li>
+        <li>想稳：按稳定直达作答。</li>
+        <li>想省：按最少档位作答，但更容易跑偏到相近人格。</li>
+        
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

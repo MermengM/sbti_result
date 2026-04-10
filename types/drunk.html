@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRUNK - 酒鬼</title>
+  <style>
+    :root {
+      --bg-1: #0a1322;
+      --bg-2: #11233a;
+      --bg-3: #1b3557;
+      --panel: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.14);
+      --title: #fff5de;
+      --text: #deebff;
+      --sub: #ffdca6;
+      --accent: #f2a64e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(244, 183, 91, 0.28), transparent 34%),
+        radial-gradient(circle at 100% 10%, rgba(84, 175, 255, 0.24), transparent 32%),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2) 42%, var(--bg-3));
+      padding: 22px 12px 40px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .back {
+      color: #ffcf86;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      width: fit-content;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 16px;
+    }
+
+    .code {
+      letter-spacing: 2px;
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(28px, 7vw, 44px);
+      margin-bottom: 8px;
+      color: var(--title);
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #ffe8bf;
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      font-size: 15px;
+      color: var(--sub);
+      border-left: 3px solid var(--accent);
+      padding-left: 10px;
+      line-height: 1.8;
+    }
+
+    .desc {
+      color: var(--text);
+      line-height: 1.9;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .badge {
+      border: 1px solid rgba(255, 207, 134, 0.45);
+      background: rgba(242, 166, 78, 0.16);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 15px;
+      color: #ffe1b2;
+      word-break: break-word;
+    }
+
+    .answer-title {
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #9fb6d6;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .answers {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      background: rgba(7, 15, 28, 0.52);
+      padding: 10px 12px;
+      color: #f2f7ff;
+      line-height: 1.9;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .action-row {
+      margin-top: 10px;
+    }
+
+    .go-btn {
+      display: inline-block;
+      border: 1px solid rgba(255, 220, 166, 0.5);
+      background: linear-gradient(135deg, rgba(242, 166, 78, 0.24), rgba(255, 207, 134, 0.2));
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffe8c2;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .go-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .go-btn.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .list li {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 10px;
+      font-size: 13.5px;
+      color: #dde8f5;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 16px 10px 28px; }
+      .panel { padding: 14px; }
+      .answers { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <a class="back" href="../index.html">返回首页</a>
+
+    <section class="panel">
+      <div class="code">DRUNK</div>
+      <h1>酒鬼</h1>
+      <p class="intro">烈酒烧喉，不得不醉。</p>
+    </section>
+
+    <section class="panel">
+      <h2>人格简介</h2>
+      <div class="desc">您为什么走路摇摇晃晃？您为什么总是情绪高涨？您为什么看东西是重影的？因为您体内流淌的不是血液，是美味的五粮液！是国窖1573！是江小白！是陕西五粮液！哦，美味的白酒，每一滴都在燃烧，都在沸腾。您是否已经习惯了将白酒灌入保温杯，当作白开水一饮而下？多么伟大的白酒！它让您在饭桌上谈笑风生，在厕所里抱着马桶忏悔人生；它让您觉得自己是夜场诗人，是宇宙中心那团不灭的火，直到第二天上午十点，您的头像裂开的核桃，嘴角挂着食物残渣，灵魂缩在角落里。您终于明白，昨晚那个高谈阔论、拍桌怒吼的人，已经成为了一个酒鬼。</div>
+    </section>
+    <section class="panel">
+      <h2>特殊说明</h2>
+      <ul class="list">
+        <li>触发方式：补充题 drink_gate_q2 选分值 2，直接命中。</li>
+<li>优先级最高：命中后会覆盖普通人格结果。</li>
+<li>30题不是主触发条件，可自由作答。</li>
+      </ul>
+    </section>    <section class="panel">
+      <h2>30题稳定直达（优先推荐）</h2>
+      <div class="answer-title">q1 ~ q30</div>
+      <div class="answers">不适用：该人格由补充题 drink_gate_q2 触发，不靠 30 题固定命中。</div>
+      <div class="action-row"><span class="go-btn disabled">该方案无固定 30 题答案</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>30题最少档位（省分版）</h2>
+      <div class="answer-title">q1 ~ q30</div>
+      <div class="answers">不想酒鬼：补充题 drink_gate_q2 不要选分值 2。</div>
+      <div class="action-row"><span class="go-btn disabled">该方案无固定 30 题答案</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>作答提醒</h2>
+      <ul class="list">
+        <li>下方每行数字从左到右对应 q1 到 q30。</li>
+        <li>若题目里 A/B/C 的顺序和分值顺序不同，仍然按分值来选。</li>
+        <li>想稳：按稳定直达作答。</li>
+        <li>想省：按最少档位作答，但更容易跑偏到相近人格。</li>
+        <li>不想酒鬼：补充题 drink_gate_q2 不要选分值 2。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

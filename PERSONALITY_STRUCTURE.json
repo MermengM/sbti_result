@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "dimension_order": [
+    "S1",
+    "S2",
+    "S3",
+    "E1",
+    "E2",
+    "E3",
+    "A1",
+    "A2",
+    "A3",
+    "Ac1",
+    "Ac2",
+    "Ac3",
+    "So1",
+    "So2",
+    "So3"
+  ],
+  "types": [
+    { "code": "CTRL", "kind": "normal", "pattern": "HHH-HMH-MHH-HHH-MHM", "enabled": true },
+    { "code": "ATM-er", "kind": "normal", "pattern": "HHH-HHM-HHH-HMH-MHL", "enabled": true },
+    { "code": "Dior-s", "kind": "normal", "pattern": "MHM-MMH-MHM-HMH-LHL", "enabled": true },
+    { "code": "BOSS", "kind": "normal", "pattern": "HHH-HMH-MMH-HHH-LHL", "enabled": true },
+    { "code": "THAN-K", "kind": "normal", "pattern": "MHM-HMM-HHM-MMH-MHL", "enabled": true },
+    { "code": "OH-NO", "kind": "normal", "pattern": "HHL-LMH-LHH-HHM-LHL", "enabled": true },
+    { "code": "GOGO", "kind": "normal", "pattern": "HHM-HMH-MMH-HHH-MHM", "enabled": true },
+    { "code": "SEXY", "kind": "normal", "pattern": "HMH-HHL-HMM-HMM-HLH", "enabled": true },
+    { "code": "LOVE-R", "kind": "normal", "pattern": "MLH-LHL-HLH-MLM-MLH", "enabled": true },
+    { "code": "MUM", "kind": "normal", "pattern": "MMH-MHL-HMM-LMM-HLL", "enabled": true },
+    { "code": "FAKE", "kind": "normal", "pattern": "HLM-MML-MLM-MLM-HLH", "enabled": true },
+    { "code": "OJBK", "kind": "normal", "pattern": "MMH-MMM-HML-LMM-MML", "enabled": true },
+    { "code": "MALO", "kind": "normal", "pattern": "MLH-MHM-MLH-MLH-LMH", "enabled": true },
+    { "code": "JOKE-R", "kind": "normal", "pattern": "LLH-LHL-LML-LLL-MLM", "enabled": true },
+    { "code": "WOC!", "kind": "normal", "pattern": "HHL-HMH-MMH-HHM-LHH", "enabled": true },
+    { "code": "THIN-K", "kind": "normal", "pattern": "HHL-HMH-MLH-MHM-LHH", "enabled": true },
+    { "code": "SHIT", "kind": "normal", "pattern": "HHL-HLH-LMM-HHM-LHH", "enabled": true },
+    { "code": "ZZZZ", "kind": "normal", "pattern": "MHL-MLH-LML-MML-LHM", "enabled": true },
+    { "code": "POOR", "kind": "normal", "pattern": "HHL-MLH-LMH-HHH-LHL", "enabled": true },
+    { "code": "MONK", "kind": "normal", "pattern": "HHL-LLH-LLM-MML-LHM", "enabled": true },
+    { "code": "IMSB", "kind": "normal", "pattern": "LLM-LMM-LLL-LLL-MLM", "enabled": true },
+    { "code": "SOLO", "kind": "normal", "pattern": "LML-LLH-LHL-LML-LHM", "enabled": true },
+    { "code": "FUCK", "kind": "normal", "pattern": "MLL-LHL-LLM-MLL-HLH", "enabled": true },
+    { "code": "DEAD", "kind": "normal", "pattern": "LLL-LLM-LML-LLL-LHM", "enabled": true },
+    { "code": "IMFW", "kind": "normal", "pattern": "LLH-LHL-LML-LLL-MLL", "enabled": true },
+    {
+      "code": "HHHH",
+      "kind": "fallback",
+      "rule": "bestNormal.similarity < 60",
+      "enabled": true
+    },
+    {
+      "code": "DRUNK",
+      "kind": "trigger",
+      "rule": "drink_gate_q2 == 2",
+      "force_similarity": 100,
+      "enabled": true
+    }
+  ]
+}

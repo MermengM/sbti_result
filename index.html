@@ -2,754 +2,777 @@
 <html lang="zh-CN">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>全人格图鉴 - 27种人格类型</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Noto Sans SC', sans-serif;
-      background: #0a0a0f;
-      color: #e0e0e0;
-      padding: clamp(20px, 3vw, 40px) clamp(12px, 2vw, 20px);
-      min-width: 0;
-      overflow-x: hidden;
-    }
-
-    .header {
-      text-align: center;
-      padding: clamp(36px, 6vw, 60px) clamp(12px, 2vw, 20px) clamp(24px, 4vw, 40px);
-      position: relative;
-    }
-
-    .header h1 {
-      font-size: clamp(30px, 6vw, 56px);
-      font-weight: 900;
-      background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: clamp(2px, 0.8vw, 8px);
-      margin-bottom: 16px;
-    }
-
-    .header p {
-      font-size: clamp(14px, 2.4vw, 20px);
-      color: #888;
-      font-weight: 300;
-      letter-spacing: clamp(1px, 0.5vw, 4px);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(14px, 2vw, 24px);
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: clamp(8px, 1.5vw, 20px);
-    }
-
-    .card {
-      border-radius: 16px;
-      padding: clamp(18px, 2.2vw, 28px);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      border-radius: 16px 16px 0 0;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .card-code {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 6px;
-    }
-
-    .card-cn {
-      font-size: clamp(22px, 4vw, 28px);
-      font-weight: 900;
-      margin-bottom: 10px;
-      line-height: 1.2;
-    }
-
-    .card-intro {
-      font-size: 14px;
-      font-style: italic;
-      margin-bottom: 14px;
-      opacity: 0.8;
-      padding-left: 12px;
-      border-left: 3px solid;
-    }
-
-    .card-desc {
-      font-size: 13.5px;
-      line-height: 1.8;
-      color: #bbb;
-      font-weight: 300;
-      display: block;
-      overflow: visible;
-    }
-
-    /* Color themes per card */
-    .card-ctrl::before {
-      background: linear-gradient(90deg, #ff6348, #ff4757);
-    }
-
-    .card-ctrl .card-code {
-      color: #ff6348;
-    }
-
-    .card-ctrl .card-intro {
-      border-color: #ff6348;
-      color: #ff9a8b;
-    }
-
-    .card-ctrl .card-cn {
-      color: #ff6348;
-    }
-
-    .card-atm-er::before {
-      background: linear-gradient(90deg, #ffa502, #eccc68);
-    }
-
-    .card-atm-er .card-code {
-      color: #ffa502;
-    }
-
-    .card-atm-er .card-intro {
-      border-color: #ffa502;
-      color: #ffd36e;
-    }
-
-    .card-atm-er .card-cn {
-      color: #ffa502;
-    }
-
-    .card-dior-s::before {
-      background: linear-gradient(90deg, #7bed9f, #2ed573);
-    }
-
-    .card-dior-s .card-code {
-      color: #7bed9f;
-    }
-
-    .card-dior-s .card-intro {
-      border-color: #7bed9f;
-      color: #a0e8b8;
-    }
-
-    .card-dior-s .card-cn {
-      color: #7bed9f;
-    }
-
-    .card-boss::before {
-      background: linear-gradient(90deg, #ff4757, #c0392b);
-    }
-
-    .card-boss .card-code {
-      color: #ff4757;
-    }
-
-    .card-boss .card-intro {
-      border-color: #ff4757;
-      color: #ff7675;
-    }
-
-    .card-boss .card-cn {
-      color: #ff4757;
-    }
-
-    .card-than-k::before {
-      background: linear-gradient(90deg, #f9ca24, #f0932b);
-    }
-
-    .card-than-k .card-code {
-      color: #f9ca24;
-    }
-
-    .card-than-k .card-intro {
-      border-color: #f9ca24;
-      color: #fddb7e;
-    }
-
-    .card-than-k .card-cn {
-      color: #f9ca24;
-    }
-
-    .card-oh-no::before {
-      background: linear-gradient(90deg, #e056fd, #be2edd);
-    }
-
-    .card-oh-no .card-code {
-      color: #e056fd;
-    }
-
-    .card-oh-no .card-intro {
-      border-color: #e056fd;
-      color: #e8a0ff;
-    }
-
-    .card-oh-no .card-cn {
-      color: #e056fd;
-    }
-
-    .card-gogo::before {
-      background: linear-gradient(90deg, #00d2d3, #01a3a4);
-    }
-
-    .card-gogo .card-code {
-      color: #00d2d3;
-    }
-
-    .card-gogo .card-intro {
-      border-color: #00d2d3;
-      color: #55e6c1;
-    }
-
-    .card-gogo .card-cn {
-      color: #00d2d3;
-    }
-
-    .card-sexy::before {
-      background: linear-gradient(90deg, #fd79a8, #e84393);
-    }
-
-    .card-sexy .card-code {
-      color: #fd79a8;
-    }
-
-    .card-sexy .card-intro {
-      border-color: #fd79a8;
-      color: #ffb8d0;
-    }
-
-    .card-sexy .card-cn {
-      color: #fd79a8;
-    }
-
-    .card-love-r::before {
-      background: linear-gradient(90deg, #ff6b81, #ee5a6f);
-    }
-
-    .card-love-r .card-code {
-      color: #ff6b81;
-    }
-
-    .card-love-r .card-intro {
-      border-color: #ff6b81;
-      color: #ffa0b0;
-    }
-
-    .card-love-r .card-cn {
-      color: #ff6b81;
-    }
-
-    .card-mum::before {
-      background: linear-gradient(90deg, #a29bfe, #6c5ce7);
-    }
-
-    .card-mum .card-code {
-      color: #a29bfe;
-    }
-
-    .card-mum .card-intro {
-      border-color: #a29bfe;
-      color: #c8c3ff;
-    }
-
-    .card-mum .card-cn {
-      color: #a29bfe;
-    }
-
-    .card-fake::before {
-      background: linear-gradient(90deg, #636e72, #b2bec3);
-    }
-
-    .card-fake .card-code {
-      color: #b2bec3;
-    }
-
-    .card-fake .card-intro {
-      border-color: #b2bec3;
-      color: #dfe6e9;
-    }
-
-    .card-fake .card-cn {
-      color: #b2bec3;
-    }
-
-    .card-ojbk::before {
-      background: linear-gradient(90deg, #55a3f0, #2e86de);
-    }
-
-    .card-ojbk .card-code {
-      color: #55a3f0;
-    }
-
-    .card-ojbk .card-intro {
-      border-color: #55a3f0;
-      color: #82c4f8;
-    }
-
-    .card-ojbk .card-cn {
-      color: #55a3f0;
-    }
-
-    .card-malo::before {
-      background: linear-gradient(90deg, #ffc048, #f39c12);
-    }
-
-    .card-malo .card-code {
-      color: #ffc048;
-    }
-
-    .card-malo .card-intro {
-      border-color: #ffc048;
-      color: #ffe0a0;
-    }
-
-    .card-malo .card-cn {
-      color: #ffc048;
-    }
-
-    .card-joke-r::before {
-      background: linear-gradient(90deg, #e74c3c, #c0392b);
-    }
-
-    .card-joke-r .card-code {
-      color: #e74c3c;
-    }
-
-    .card-joke-r .card-intro {
-      border-color: #e74c3c;
-      color: #f08080;
-    }
-
-    .card-joke-r .card-cn {
-      color: #e74c3c;
-    }
-
-    .card-woc::before {
-      background: linear-gradient(90deg, #e55039, #eb4d4b);
-    }
-
-    .card-woc .card-code {
-      color: #e55039;
-    }
-
-    .card-woc .card-intro {
-      border-color: #e55039;
-      color: #f09070;
-    }
-
-    .card-woc .card-cn {
-      color: #e55039;
-    }
-
-    .card-thin-k::before {
-      background: linear-gradient(90deg, #4a90d9, #3c6382);
-    }
-
-    .card-thin-k .card-code {
-      color: #4a90d9;
-    }
-
-    .card-thin-k .card-intro {
-      border-color: #4a90d9;
-      color: #82b1e8;
-    }
-
-    .card-thin-k .card-cn {
-      color: #4a90d9;
-    }
-
-    .card-shit::before {
-      background: linear-gradient(90deg, #6ab04c, #badc58);
-    }
-
-    .card-shit .card-code {
-      color: #6ab04c;
-    }
-
-    .card-shit .card-intro {
-      border-color: #6ab04c;
-      color: #a0d888;
-    }
-
-    .card-shit .card-cn {
-      color: #6ab04c;
-    }
-
-    .card-zzzz::before {
-      background: linear-gradient(90deg, #686de0, #4834d4);
-    }
-
-    .card-zzzz .card-code {
-      color: #686de0;
-    }
-
-    .card-zzzz .card-intro {
-      border-color: #686de0;
-      color: #9b9ef0;
-    }
-
-    .card-zzzz .card-cn {
-      color: #686de0;
-    }
-
-    .card-poor::before {
-      background: linear-gradient(90deg, #c8d6e5, #8395a7);
-    }
-
-    .card-poor .card-code {
-      color: #c8d6e5;
-    }
-
-    .card-poor .card-intro {
-      border-color: #c8d6e5;
-      color: #dfe8f0;
-    }
-
-    .card-poor .card-cn {
-      color: #c8d6e5;
-    }
-
-    .card-monk::before {
-      background: linear-gradient(90deg, #d4a45a, #b8860b);
-    }
-
-    .card-monk .card-code {
-      color: #d4a45a;
-    }
-
-    .card-monk .card-intro {
-      border-color: #d4a45a;
-      color: #e8c88a;
-    }
-
-    .card-monk .card-cn {
-      color: #d4a45a;
-    }
-
-    .card-imsb::before {
-      background: linear-gradient(90deg, #ff6b6b, #ee5a24);
-    }
-
-    .card-imsb .card-code {
-      color: #ff6b6b;
-    }
-
-    .card-imsb .card-intro {
-      border-color: #ff6b6b;
-      color: #ff9a9a;
-    }
-
-    .card-imsb .card-cn {
-      color: #ff6b6b;
-    }
-
-    .card-solo::before {
-      background: linear-gradient(90deg, #5f27cd, #341f97);
-    }
-
-    .card-solo .card-code {
-      color: #9b7fde;
-    }
-
-    .card-solo .card-intro {
-      border-color: #9b7fde;
-      color: #b8a4e8;
-    }
-
-    .card-solo .card-cn {
-      color: #9b7fde;
-    }
-
-    .card-fuck::before {
-      background: linear-gradient(90deg, #ff3838, #ff9f1a);
-    }
-
-    .card-fuck .card-code {
-      color: #ff3838;
-    }
-
-    .card-fuck .card-intro {
-      border-color: #ff3838;
-      color: #ff7878;
-    }
-
-    .card-fuck .card-cn {
-      color: #ff3838;
-    }
-
-    .card-dead::before {
-      background: linear-gradient(90deg, #2d3436, #636e72);
-    }
-
-    .card-dead .card-code {
-      color: #a0a0a0;
-    }
-
-    .card-dead .card-intro {
-      border-color: #636e72;
-      color: #b0b0b0;
-    }
-
-    .card-dead .card-cn {
-      color: #a0a0a0;
-    }
-
-    .card-imfw::before {
-      background: linear-gradient(90deg, #74b9ff, #0984e3);
-    }
-
-    .card-imfw .card-code {
-      color: #74b9ff;
-    }
-
-    .card-imfw .card-intro {
-      border-color: #74b9ff;
-      color: #a0d0ff;
-    }
-
-    .card-imfw .card-cn {
-      color: #74b9ff;
-    }
-
-    .card-hhhh::before {
-      background: linear-gradient(90deg, #ffeaa7, #fdcb6e);
-    }
-
-    .card-hhhh .card-code {
-      color: #fdcb6e;
-    }
-
-    .card-hhhh .card-intro {
-      border-color: #fdcb6e;
-      color: #ffe8a8;
-    }
-
-    .card-hhhh .card-cn {
-      color: #fdcb6e;
-    }
-
-    .card-drunk::before {
-      background: linear-gradient(90deg, #e17055, #d63031);
-    }
-
-    .card-drunk .card-code {
-      color: #e17055;
-    }
-
-    .card-drunk .card-intro {
-      border-color: #e17055;
-      color: #f0a090;
-    }
-
-    .card-drunk .card-cn {
-      color: #e17055;
-    }
-
-    .footer {
-      text-align: center;
-      padding: clamp(36px, 5vw, 60px) 20px 40px;
-      color: #555;
-      font-size: clamp(12px, 2vw, 14px);
-      letter-spacing: clamp(1px, 0.4vw, 2px);
-    }
-
-    @media (max-width: 1200px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 760px) {
-      body {
-        padding: 16px 10px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media print {
-      body {
-        background: #111;
-      }
-
-      .card {
-        break-inside: avoid;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全人格图鉴 - 27种人格类型</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            padding: clamp(20px, 3vw, 40px) clamp(12px, 2vw, 20px);
+            min-width: 0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: clamp(36px, 6vw, 60px) clamp(12px, 2vw, 20px) clamp(24px, 4vw, 40px);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: clamp(30px, 6vw, 56px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: clamp(2px, 0.8vw, 8px);
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: clamp(14px, 2.4vw, 20px);
+            color: #888;
+            font-weight: 300;
+            letter-spacing: clamp(1px, 0.5vw, 4px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: clamp(14px, 2vw, 24px);
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: clamp(8px, 1.5vw, 20px);
+        }
+
+        .card {
+            border-radius: 16px;
+            padding: clamp(18px, 2.2vw, 28px);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .card:visited {
+            color: inherit;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-code {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+
+        .card-cn {
+            font-size: clamp(22px, 4vw, 28px);
+            font-weight: 900;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .card-intro {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 14px;
+            opacity: 0.8;
+            padding-left: 12px;
+            border-left: 3px solid;
+        }
+
+        .card-desc {
+            font-size: 13.5px;
+            line-height: 1.8;
+            color: #bbb;
+            font-weight: 300;
+            display: block;
+            overflow: visible;
+        }
+
+        .card-link-hint {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #8f8f8f;
+            letter-spacing: 0.6px;
+        }
+
+        /* Color themes per card */
+        .card-ctrl::before {
+            background: linear-gradient(90deg, #ff6348, #ff4757);
+        }
+
+        .card-ctrl .card-code {
+            color: #ff6348;
+        }
+
+        .card-ctrl .card-intro {
+            border-color: #ff6348;
+            color: #ff9a8b;
+        }
+
+        .card-ctrl .card-cn {
+            color: #ff6348;
+        }
+
+        .card-atm-er::before {
+            background: linear-gradient(90deg, #ffa502, #eccc68);
+        }
+
+        .card-atm-er .card-code {
+            color: #ffa502;
+        }
+
+        .card-atm-er .card-intro {
+            border-color: #ffa502;
+            color: #ffd36e;
+        }
+
+        .card-atm-er .card-cn {
+            color: #ffa502;
+        }
+
+        .card-dior-s::before {
+            background: linear-gradient(90deg, #7bed9f, #2ed573);
+        }
+
+        .card-dior-s .card-code {
+            color: #7bed9f;
+        }
+
+        .card-dior-s .card-intro {
+            border-color: #7bed9f;
+            color: #a0e8b8;
+        }
+
+        .card-dior-s .card-cn {
+            color: #7bed9f;
+        }
+
+        .card-boss::before {
+            background: linear-gradient(90deg, #ff4757, #c0392b);
+        }
+
+        .card-boss .card-code {
+            color: #ff4757;
+        }
+
+        .card-boss .card-intro {
+            border-color: #ff4757;
+            color: #ff7675;
+        }
+
+        .card-boss .card-cn {
+            color: #ff4757;
+        }
+
+        .card-than-k::before {
+            background: linear-gradient(90deg, #f9ca24, #f0932b);
+        }
+
+        .card-than-k .card-code {
+            color: #f9ca24;
+        }
+
+        .card-than-k .card-intro {
+            border-color: #f9ca24;
+            color: #fddb7e;
+        }
+
+        .card-than-k .card-cn {
+            color: #f9ca24;
+        }
+
+        .card-oh-no::before {
+            background: linear-gradient(90deg, #e056fd, #be2edd);
+        }
+
+        .card-oh-no .card-code {
+            color: #e056fd;
+        }
+
+        .card-oh-no .card-intro {
+            border-color: #e056fd;
+            color: #e8a0ff;
+        }
+
+        .card-oh-no .card-cn {
+            color: #e056fd;
+        }
+
+        .card-gogo::before {
+            background: linear-gradient(90deg, #00d2d3, #01a3a4);
+        }
+
+        .card-gogo .card-code {
+            color: #00d2d3;
+        }
+
+        .card-gogo .card-intro {
+            border-color: #00d2d3;
+            color: #55e6c1;
+        }
+
+        .card-gogo .card-cn {
+            color: #00d2d3;
+        }
+
+        .card-sexy::before {
+            background: linear-gradient(90deg, #fd79a8, #e84393);
+        }
+
+        .card-sexy .card-code {
+            color: #fd79a8;
+        }
+
+        .card-sexy .card-intro {
+            border-color: #fd79a8;
+            color: #ffb8d0;
+        }
+
+        .card-sexy .card-cn {
+            color: #fd79a8;
+        }
+
+        .card-love-r::before {
+            background: linear-gradient(90deg, #ff6b81, #ee5a6f);
+        }
+
+        .card-love-r .card-code {
+            color: #ff6b81;
+        }
+
+        .card-love-r .card-intro {
+            border-color: #ff6b81;
+            color: #ffa0b0;
+        }
+
+        .card-love-r .card-cn {
+            color: #ff6b81;
+        }
+
+        .card-mum::before {
+            background: linear-gradient(90deg, #a29bfe, #6c5ce7);
+        }
+
+        .card-mum .card-code {
+            color: #a29bfe;
+        }
+
+        .card-mum .card-intro {
+            border-color: #a29bfe;
+            color: #c8c3ff;
+        }
+
+        .card-mum .card-cn {
+            color: #a29bfe;
+        }
+
+        .card-fake::before {
+            background: linear-gradient(90deg, #636e72, #b2bec3);
+        }
+
+        .card-fake .card-code {
+            color: #b2bec3;
+        }
+
+        .card-fake .card-intro {
+            border-color: #b2bec3;
+            color: #dfe6e9;
+        }
+
+        .card-fake .card-cn {
+            color: #b2bec3;
+        }
+
+        .card-ojbk::before {
+            background: linear-gradient(90deg, #55a3f0, #2e86de);
+        }
+
+        .card-ojbk .card-code {
+            color: #55a3f0;
+        }
+
+        .card-ojbk .card-intro {
+            border-color: #55a3f0;
+            color: #82c4f8;
+        }
+
+        .card-ojbk .card-cn {
+            color: #55a3f0;
+        }
+
+        .card-malo::before {
+            background: linear-gradient(90deg, #ffc048, #f39c12);
+        }
+
+        .card-malo .card-code {
+            color: #ffc048;
+        }
+
+        .card-malo .card-intro {
+            border-color: #ffc048;
+            color: #ffe0a0;
+        }
+
+        .card-malo .card-cn {
+            color: #ffc048;
+        }
+
+        .card-joke-r::before {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .card-joke-r .card-code {
+            color: #e74c3c;
+        }
+
+        .card-joke-r .card-intro {
+            border-color: #e74c3c;
+            color: #f08080;
+        }
+
+        .card-joke-r .card-cn {
+            color: #e74c3c;
+        }
+
+        .card-woc::before {
+            background: linear-gradient(90deg, #e55039, #eb4d4b);
+        }
+
+        .card-woc .card-code {
+            color: #e55039;
+        }
+
+        .card-woc .card-intro {
+            border-color: #e55039;
+            color: #f09070;
+        }
+
+        .card-woc .card-cn {
+            color: #e55039;
+        }
+
+        .card-thin-k::before {
+            background: linear-gradient(90deg, #4a90d9, #3c6382);
+        }
+
+        .card-thin-k .card-code {
+            color: #4a90d9;
+        }
+
+        .card-thin-k .card-intro {
+            border-color: #4a90d9;
+            color: #82b1e8;
+        }
+
+        .card-thin-k .card-cn {
+            color: #4a90d9;
+        }
+
+        .card-shit::before {
+            background: linear-gradient(90deg, #6ab04c, #badc58);
+        }
+
+        .card-shit .card-code {
+            color: #6ab04c;
+        }
+
+        .card-shit .card-intro {
+            border-color: #6ab04c;
+            color: #a0d888;
+        }
+
+        .card-shit .card-cn {
+            color: #6ab04c;
+        }
+
+        .card-zzzz::before {
+            background: linear-gradient(90deg, #686de0, #4834d4);
+        }
+
+        .card-zzzz .card-code {
+            color: #686de0;
+        }
+
+        .card-zzzz .card-intro {
+            border-color: #686de0;
+            color: #9b9ef0;
+        }
+
+        .card-zzzz .card-cn {
+            color: #686de0;
+        }
+
+        .card-poor::before {
+            background: linear-gradient(90deg, #c8d6e5, #8395a7);
+        }
+
+        .card-poor .card-code {
+            color: #c8d6e5;
+        }
+
+        .card-poor .card-intro {
+            border-color: #c8d6e5;
+            color: #dfe8f0;
+        }
+
+        .card-poor .card-cn {
+            color: #c8d6e5;
+        }
+
+        .card-monk::before {
+            background: linear-gradient(90deg, #d4a45a, #b8860b);
+        }
+
+        .card-monk .card-code {
+            color: #d4a45a;
+        }
+
+        .card-monk .card-intro {
+            border-color: #d4a45a;
+            color: #e8c88a;
+        }
+
+        .card-monk .card-cn {
+            color: #d4a45a;
+        }
+
+        .card-imsb::before {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+        }
+
+        .card-imsb .card-code {
+            color: #ff6b6b;
+        }
+
+        .card-imsb .card-intro {
+            border-color: #ff6b6b;
+            color: #ff9a9a;
+        }
+
+        .card-imsb .card-cn {
+            color: #ff6b6b;
+        }
+
+        .card-solo::before {
+            background: linear-gradient(90deg, #5f27cd, #341f97);
+        }
+
+        .card-solo .card-code {
+            color: #9b7fde;
+        }
+
+        .card-solo .card-intro {
+            border-color: #9b7fde;
+            color: #b8a4e8;
+        }
+
+        .card-solo .card-cn {
+            color: #9b7fde;
+        }
+
+        .card-fuck::before {
+            background: linear-gradient(90deg, #ff3838, #ff9f1a);
+        }
+
+        .card-fuck .card-code {
+            color: #ff3838;
+        }
+
+        .card-fuck .card-intro {
+            border-color: #ff3838;
+            color: #ff7878;
+        }
+
+        .card-fuck .card-cn {
+            color: #ff3838;
+        }
+
+        .card-dead::before {
+            background: linear-gradient(90deg, #2d3436, #636e72);
+        }
+
+        .card-dead .card-code {
+            color: #a0a0a0;
+        }
+
+        .card-dead .card-intro {
+            border-color: #636e72;
+            color: #b0b0b0;
+        }
+
+        .card-dead .card-cn {
+            color: #a0a0a0;
+        }
+
+        .card-imfw::before {
+            background: linear-gradient(90deg, #74b9ff, #0984e3);
+        }
+
+        .card-imfw .card-code {
+            color: #74b9ff;
+        }
+
+        .card-imfw .card-intro {
+            border-color: #74b9ff;
+            color: #a0d0ff;
+        }
+
+        .card-imfw .card-cn {
+            color: #74b9ff;
+        }
+
+        .card-hhhh::before {
+            background: linear-gradient(90deg, #ffeaa7, #fdcb6e);
+        }
+
+        .card-hhhh .card-code {
+            color: #fdcb6e;
+        }
+
+        .card-hhhh .card-intro {
+            border-color: #fdcb6e;
+            color: #ffe8a8;
+        }
+
+        .card-hhhh .card-cn {
+            color: #fdcb6e;
+        }
+
+        .card-drunk::before {
+            background: linear-gradient(90deg, #e17055, #d63031);
+        }
+
+        .card-drunk .card-code {
+            color: #e17055;
+        }
+
+        .card-drunk .card-intro {
+            border-color: #e17055;
+            color: #f0a090;
+        }
+
+        .card-drunk .card-cn {
+            color: #e17055;
+        }
+
+        .footer {
+            text-align: center;
+            padding: clamp(36px, 5vw, 60px) 20px 40px;
+            color: #555;
+            font-size: clamp(12px, 2vw, 14px);
+            letter-spacing: clamp(1px, 0.4vw, 2px);
+        }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 16px 10px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: #111;
+            }
+
+            .card {
+                break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>全 人 格 图 鉴</h1>
-    <p>27 种人格类型 · 一图尽览</p>
-  </div>
+    <div class="header">
+        <h1>全 人 格 图 鉴</h1>
+        <p>27 种人格类型 · 一图尽览</p>
+    </div>
 
-  <div class="grid" id="type-grid"></div>
+    <div class="grid" id="type-grid"></div>
 
-  <div class="footer">
-    全人格图鉴 · 共 27 种人格类型 · 一图尽览
-  </div>
+    <div class="footer">
+        全人格图鉴 · 共 27 种人格类型 · 一图尽览
+    </div>
 
-  <script>
-    let equalizeResizeTimer = null;
-    let equalizeListenersBound = false;
+    <script>
+        let equalizeResizeTimer = null;
+        let equalizeListenersBound = false;
 
-    function normalizeCardHeights() {
-      const grid = document.getElementById('type-grid');
-      if (!grid) {
-        return;
-      }
+        function normalizeCardHeights() {
+            const grid = document.getElementById('type-grid');
+            if (!grid) {
+                return;
+            }
 
-      const cards = Array.from(grid.querySelectorAll('.card'));
-      if (!cards.length) {
-        return;
-      }
+            const cards = Array.from(grid.querySelectorAll('.card'));
+            if (!cards.length) {
+                return;
+            }
 
-      cards.forEach((card) => {
-        card.style.height = 'auto';
-      });
+            cards.forEach((card) => {
+                card.style.height = 'auto';
+            });
 
-      let maxHeight = 0;
-      cards.forEach((card) => {
-        maxHeight = Math.max(maxHeight, card.getBoundingClientRect().height);
-      });
+            let maxHeight = 0;
+            cards.forEach((card) => {
+                maxHeight = Math.max(maxHeight, card.getBoundingClientRect().height);
+            });
 
-      const normalizedHeight = `${Math.ceil(maxHeight)}px`;
-      cards.forEach((card) => {
-        card.style.height = normalizedHeight;
-      });
-    }
-
-    function scheduleNormalizeCardHeights() {
-      window.requestAnimationFrame(() => {
-        normalizeCardHeights();
-      });
-    }
-
-    function bindEqualizeListeners() {
-      if (equalizeListenersBound) {
-        return;
-      }
-
-      equalizeListenersBound = true;
-
-      window.addEventListener('resize', () => {
-        window.clearTimeout(equalizeResizeTimer);
-        equalizeResizeTimer = window.setTimeout(() => {
-          scheduleNormalizeCardHeights();
-        }, 120);
-      }, {
-        passive: true
-      });
-
-      window.addEventListener('orientationchange', () => {
-        scheduleNormalizeCardHeights();
-      }, {
-        passive: true
-      });
-
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-          scheduleNormalizeCardHeights();
-        }).catch(() => {
-          // Ignore font-loading failures and keep current measured heights.
-        });
-      }
-    }
-
-    async function syncTypeLibrary() {
-      try {
-        const response = await fetch('./TYPE_LIBRARY.json');
-        if (!response.ok) {
-          throw new Error('Failed to load TYPE_LIBRARY.json');
+            const normalizedHeight = `${Math.ceil(maxHeight)}px`;
+            cards.forEach((card) => {
+                card.style.height = normalizedHeight;
+            });
         }
 
-        const library = await response.json();
-        const grid = document.getElementById('type-grid');
-        if (!grid) {
-          return;
+        function scheduleNormalizeCardHeights() {
+            window.requestAnimationFrame(() => {
+                normalizeCardHeights();
+            });
         }
 
-        grid.innerHTML = '';
+        function bindEqualizeListeners() {
+            if (equalizeListenersBound) {
+                return;
+            }
 
-        const toThemeClass = (code) => code.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            equalizeListenersBound = true;
 
-        Object.values(library).forEach((profile) => {
-          const card = document.createElement('div');
-          card.className = `card card-${toThemeClass(profile.code || '')}`;
+            window.addEventListener('resize', () => {
+                window.clearTimeout(equalizeResizeTimer);
+                equalizeResizeTimer = window.setTimeout(() => {
+                    scheduleNormalizeCardHeights();
+                }, 120);
+            }, {
+                passive: true
+            });
 
-          const codeEl = document.createElement('div');
-          codeEl.className = 'card-code';
-          codeEl.textContent = profile.code || '';
+            window.addEventListener('orientationchange', () => {
+                scheduleNormalizeCardHeights();
+            }, {
+                passive: true
+            });
 
-          const cnEl = document.createElement('div');
-          cnEl.className = 'card-cn';
-          cnEl.textContent = profile.cn || '';
-
-          const introEl = document.createElement('div');
-          introEl.className = 'card-intro';
-          introEl.textContent = profile.intro || '';
-
-          const descEl = document.createElement('div');
-          descEl.className = 'card-desc';
-          descEl.textContent = profile.desc || '';
-
-          card.appendChild(codeEl);
-          card.appendChild(cnEl);
-          card.appendChild(introEl);
-          card.appendChild(descEl);
-          grid.appendChild(card);
-        });
-
-        const footer = document.querySelector('.footer');
-        if (footer) {
-          const total = Object.keys(library).length;
-          footer.textContent = `全人格图鉴 · 共 ${total} 种人格类型 · 一图尽览`;
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(() => {
+                    scheduleNormalizeCardHeights();
+                }).catch(() => {
+                    // Ignore font-loading failures and keep current measured heights.
+                });
+            }
         }
 
-        scheduleNormalizeCardHeights();
-      } catch (error) {
-        console.warn('TYPE_LIBRARY 同步失败，继续使用页面内置文案。', error);
-      }
-    }
+        async function syncTypeLibrary() {
+            try {
+                const response = await fetch('./TYPE_LIBRARY.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load TYPE_LIBRARY.json');
+                }
 
-    bindEqualizeListeners();
-    syncTypeLibrary();
-  </script>
+                const library = await response.json();
+                const grid = document.getElementById('type-grid');
+                if (!grid) {
+                    return;
+                }
+
+                grid.innerHTML = '';
+
+                const toThemeClass = (code) => code.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+                Object.values(library).forEach((profile) => {
+                    const slug = toThemeClass(profile.code || 'type');
+                    const card = document.createElement('a');
+                    card.className = `card card-${slug}`;
+                    card.href = `./types/${slug}.html`;
+                    card.setAttribute('aria-label', `查看 ${profile.code || ''} 详情`);
+
+                    const codeEl = document.createElement('div');
+                    codeEl.className = 'card-code';
+                    codeEl.textContent = profile.code || '';
+
+                    const cnEl = document.createElement('div');
+                    cnEl.className = 'card-cn';
+                    cnEl.textContent = profile.cn || '';
+
+                    const introEl = document.createElement('div');
+                    introEl.className = 'card-intro';
+                    introEl.textContent = profile.intro || '';
+
+                    const descEl = document.createElement('div');
+                    descEl.className = 'card-desc';
+                    descEl.textContent = profile.desc || '';
+
+                    const linkHintEl = document.createElement('div');
+                    linkHintEl.className = 'card-link-hint';
+                    linkHintEl.textContent = '点击查看规则详情';
+
+                    card.appendChild(codeEl);
+                    card.appendChild(cnEl);
+                    card.appendChild(introEl);
+                    card.appendChild(descEl);
+                    card.appendChild(linkHintEl);
+                    grid.appendChild(card);
+                });
+
+                const footer = document.querySelector('.footer');
+                if (footer) {
+                    const total = Object.keys(library).length;
+                    footer.textContent = `全人格图鉴 · 共 ${total} 种人格类型 · 一图尽览`;
+                }
+
+                scheduleNormalizeCardHeights();
+            } catch (error) {
+                console.warn('TYPE_LIBRARY 同步失败，继续使用页面内置文案。', error);
+            }
+        }
+
+        bindEqualizeListeners();
+        syncTypeLibrary();
+    </script>
 
 </body>
 
